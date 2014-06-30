@@ -1,0 +1,8 @@
+C:\Users\Finlay Mercer\AppData\Local\Temporary Projects\Zoo\bin\Release\Zoo.exe
+C:\Users\Finlay Mercer\AppData\Local\Temporary Projects\Zoo\bin\Release\Zoo.pdb
+C:\Users\Finlay Mercer\AppData\Local\Temporary Projects\Zoo\obj\x86\Release\Zoo.exe
+C:\Users\Finlay Mercer\AppData\Local\Temporary Projects\Zoo\obj\x86\Release\Zoo.pdb
+C:\Users\Finlay Mercer\documents\visual studio 2010\Projects\Zoo\Zoo\bin\Release\Zoo.exe
+C:\Users\Finlay Mercer\documents\visual studio 2010\Projects\Zoo\Zoo\bin\Release\Zoo.pdb
+C:\Users\Finlay Mercer\documents\visual studio 2010\Projects\Zoo\Zoo\obj\x86\Release\Zoo.exe
+C:\Users\Finlay Mercer\documents\visual studio 2010\Projects\Zoo\Zoo\obj\x86\Release\Zoo.pdb

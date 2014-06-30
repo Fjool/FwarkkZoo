@@ -1,0 +1,12 @@
+C:\Users\Finlay Mercer\AppData\Local\Temporary Projects\Zoo\bin\Debug\Zoo.exe
+C:\Users\Finlay Mercer\AppData\Local\Temporary Projects\Zoo\bin\Debug\Zoo.pdb
+C:\Users\Finlay Mercer\AppData\Local\Temporary Projects\Zoo\obj\x86\Debug\Zoo.exe
+C:\Users\Finlay Mercer\AppData\Local\Temporary Projects\Zoo\obj\x86\Debug\Zoo.pdb
+C:\Users\Finlay Mercer\documents\visual studio 2010\Projects\Zoo\Zoo\obj\x86\Debug\Zoo.exe
+C:\Users\Finlay Mercer\documents\visual studio 2010\Projects\Zoo\Zoo\obj\x86\Debug\Zoo.pdb
+C:\Users\Finlay Mercer\documents\visual studio 2010\Projects\Zoo\Zoo\bin\Debug\Zoo.exe
+C:\Users\Finlay Mercer\documents\visual studio 2010\Projects\Zoo\Zoo\bin\Debug\Zoo.pdb
+C:\Personal\Develop\FwarkkZoo\Zoo\Zoo\obj\x86\Debug\Zoo.pdb
+C:\Personal\Develop\FwarkkZoo\Zoo\Zoo\bin\Debug\Zoo.exe
+C:\Personal\Develop\FwarkkZoo\Zoo\Zoo\bin\Debug\Zoo.pdb
+C:\Personal\Develop\FwarkkZoo\Zoo\Zoo\obj\x86\Debug\Zoo.exe
