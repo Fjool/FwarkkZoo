@@ -1,0 +1,5 @@
+C:\Personal\Develop\git\FwarkkZoo\bin\x64\Debug\Zoo.exe
+C:\Personal\Develop\git\FwarkkZoo\bin\x64\Debug\Zoo.pdb
+C:\Personal\Develop\git\FwarkkZoo\obj\x64\Debug\Zoo.csprojResolveAssemblyReference.cache
+C:\Personal\Develop\git\FwarkkZoo\obj\x64\Debug\Zoo.exe
+C:\Personal\Develop\git\FwarkkZoo\obj\x64\Debug\Zoo.pdb

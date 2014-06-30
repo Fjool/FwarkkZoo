@@ -12,8 +12,10 @@ namespace Zoo
     {       
         public Zoo theZoo;
 
+        protected Boolean canMove = true;
+
         public int maxFood       = 1000;
-        public float currentFood = 1000;
+        public int currentFood   =  500;
         public int hungerPerTick =   10;
 
         static Random random = new Random();
@@ -86,11 +88,11 @@ namespace Zoo
         //--------------------------------------------------------------------------------
         protected virtual void CheckHunger()
         {
-            // animal loses 10 food per second
+            // animal loses food per update
             currentFood -= hungerPerTick;
 
             // check animal status and complain if hungry, die if dead
-            if (currentFood < 10)
+            if (currentFood <= 0)
             {
                 theZoo.lastMessage = this.species + " has died.";
                 isDead = true;
@@ -106,7 +108,6 @@ namespace Zoo
         public virtual void Move()
         {
             MoveRandomly();
-            currentFood--;
         }
 
         //--------------------------------------------------------------------------------
@@ -199,7 +200,6 @@ namespace Zoo
 
             return MoveTo(newX, newY); 
         }
-        
 
         //--------------------------------------------------------------------------------      
         public Boolean MoveToward(Animal anotherAnimal)
@@ -242,7 +242,7 @@ namespace Zoo
             x = newX;
             y = newY;  
 
-            currentFood -= 10;
+            currentFood -= hungerPerTick;
 
             return true;  
         }
@@ -259,53 +259,37 @@ namespace Zoo
             symbol = 'Z';
             species = "Zebra";
             rand = new Random((int)DateTime.Now.Ticks);
+            hungerPerTick = 5;
         }
-        /*
-        protected Boolean GroupWithOtherZebras()
-        {
-            Boolean hasMoved = false;
 
-            Zebra closestZebra = FindClosest<Zebra>();
-            
-            if (closestZebra != null)
-            {   if (DistanceFrom(closestZebra) < 3)
-                {
-                    hasMoved = MoveAwayFrom(closestZebra);
-                }
-                else
-                {
-                    hasMoved = MoveToward(closestZebra);
-                }
-            }
-
-            return hasMoved;
-        }
-        */
         protected void MoveToMostAttractiveSquare()
         {
-            // evaluate all surrounding squares and move to the nicest one
-            int newX = locX, newY = locY;
-            double currentBest = 0;
+            if (canMove)
+            { 
+                // evaluate all surrounding squares and move to the nicest one
+                int newX = locX, newY = locY;
+                double currentBest = 0;
            
-            for(int i = -1; i <= 1; i++)
-            {   for(int j = -1; j <= 1; j++)
-                {                    
-                    if (locX+i >= 0 && locX + i < Screen.Wide && locY+j >= 0 && locY+j < Screen.High)
-                    {
-                        double checkSquare = EvaluateSquare(locX+i, locY+j) + rand.Next(0,10);
-
-                        if (checkSquare > currentBest)
+                for(int i = -1; i <= 1; i++)
+                {   for(int j = -1; j <= 1; j++)
+                    {                    
+                        if (locX+i >= 0 && locX + i < Screen.Wide && locY+j >= 0 && locY+j < Screen.High)
                         {
-                            newX = locX+i;
-                            newY = locY+j;
+                            double checkSquare = EvaluateSquare(locX+i, locY+j) + rand.Next(0,10);
 
-                            currentBest = checkSquare;
+                            if (checkSquare > currentBest)
+                            {
+                                newX = locX+i;
+                                newY = locY+j;
+
+                                currentBest = checkSquare;
+                            }
                         }
                     }
                 }
-            }
 
-            MoveTo(newX, newY);
+                MoveTo(newX, newY);
+            }
         }
 
         protected double EvaluateSquare(int x, int y)
@@ -322,12 +306,16 @@ namespace Zoo
 
             // maybe move closer to nearest zebra
             Zebra zebra = FindClosest<Zebra>();
-            if (this.DistanceFrom(zebra) > zebra.DistanceFrom(x, y))
+
+            if (zebra != null) 
             {
-                attraction += 1;
-            }
-            else
-            {   attraction -= 1;
+                if (this.DistanceFrom(zebra) > zebra.DistanceFrom(x, y))
+                {
+                    attraction += 1;
+                }
+                else
+                {   attraction -= 1;
+                }
             }
 
             // avoid swimming into very deep water
@@ -343,59 +331,47 @@ namespace Zoo
             return theZoo.GetAnimalsOfType<Lion>().Exists(l => l.DistanceFrom(this) < 10);
         }
 
-        public override void Update(double elapsedTime)
-        {   
-            if (LionIsClose())
-            {
-                MoveToMostAttractiveSquare();
-            }
-            else
-            {   if (isHungry())
-                {
-                    // otherwise, if we are at all hungry, eat from the current square (if it has food)
-                    if (theZoo.map.terrain[locY,locX].foodStock > 50)
-                    {   
-                        currentFood += 2f;
-                    }
-                    else if (theZoo.map.terrain[locY,locX].foodStock > 20)
-                    {   
-                        currentFood += 1f;
-                    }
-                    else if (theZoo.map.terrain[locY,locX].foodStock > 0)
-                    {   
-                        currentFood += 0.5f;
-                    }
-
-                    currentFood = Math.Min(maxFood, currentFood);
-                    theZoo.map.terrain[locY,locX].foodStock -= 50;
-                    theZoo.map.terrain[locY,locX].foodStock = Math.Max(0, theZoo.map.terrain[locY,locX].foodStock);
-                }
-                else 
-                {   MoveToMostAttractiveSquare();                     
-                }
-            }
-        }
-/*
-        protected Boolean RunFromLions()
-        {
-            Boolean hasMoved = false;
-            Lion lion = FindClosest<Lion>();
-
-            if (lion != null && lion.DistanceFrom(this) < 10)
-            {   hasMoved = MoveAwayFrom(lion);                    
-            }
-                        
-            return hasMoved;
-        }
-
         public override void Move()
         {
-            if (!RunFromLions())
-            {
-                base.Move();
-            }            
+            MoveToMostAttractiveSquare();
         }
- */
+
+        public override void Update(double elapsedTime) 
+        {
+            base.Update(elapsedTime);
+        
+            canMove = false;
+
+            // if we are at all hungry, eat from the current square (if it has food)
+            if (theZoo.map.terrain[locY,locX].foodStock > 75)
+            {   
+                currentFood += 20;
+            }
+            else if (theZoo.map.terrain[locY,locX].foodStock > 50)
+            {   
+                currentFood += 10;
+            }
+            else if (theZoo.map.terrain[locY,locX].foodStock > 25)
+            {   
+                currentFood += 5;
+            }
+            else
+            {   canMove = true;
+            }
+
+            currentFood = Math.Min(maxFood, currentFood);
+            theZoo.map.terrain[locY,locX].foodStock -= 50;
+            theZoo.map.terrain[locY,locX].foodStock = Math.Max(0, theZoo.map.terrain[locY,locX].foodStock);
+
+            if (isHungry()) 
+            {
+                foreground = ConsoleColor.Red;
+            }
+            else 
+            {
+                foreground = ConsoleColor.White;
+            }
+        }
     }
 
     //--------------------------------------------------------------------------------
